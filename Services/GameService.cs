@@ -24,20 +24,27 @@ public class GameService : IGameService
         var game = await _gameRepository.GetByIdAsync(id);
         return _mapper.Map<GameDto?>(game);
     }
-    public async Task<GameDto> AddGameAsync(GameDto gameDto)
+    public async Task<GameDto> AddGameAsync(CreateGameDto gameDto)
     {
         var game = _mapper.Map<Game>(gameDto);
         await _gameRepository.AddAsync(game);
         await _gameRepository.SaveChangesAsync();
         return _mapper.Map<GameDto>(game);
     }
-    public async Task DeleteGameAsync(int id)
+    public async Task<bool>UpdateGameAsync(int id, UpdateGameDto gameDto)
+    {
+        var existingGame = await _gameRepository.GetByIdAsync(id);
+        if(existingGame==null)return false;
+        _mapper.Map(gameDto, existingGame);
+        await _gameRepository.SaveChangesAsync();
+        return true;
+    }
+    public async Task<bool> DeleteGameAsync(int id)
     {
         var game = await _gameRepository.GetByIdAsync(id);
-        if (game != null)
-        {
-            _gameRepository.Delete(game);
-            await _gameRepository.SaveChangesAsync(); 
-        }
+        if(game==null)return false;
+        _gameRepository.Delete(game);
+        await _gameRepository.SaveChangesAsync(); 
+        return true;
     }
 }

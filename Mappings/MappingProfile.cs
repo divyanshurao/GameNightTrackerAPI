@@ -10,5 +10,7 @@ public class MappingProfile : Profile
     {
         // Map Game ↔ GameDto (both directions)
         CreateMap<Game, GameDto>().ReverseMap();
+        CreateMap<CreateGameDto, Game>();
+        CreateMap<UpdateGameDto, Game>();
     }
 }
