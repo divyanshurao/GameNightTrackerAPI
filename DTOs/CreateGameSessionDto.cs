@@ -8,5 +8,5 @@ public class CreateGameSessionDto
    public List<int>PlayersIds {get; set;}=new();
    public int? WinnerPlayerId{get; set;}
 
-   public DateTime? DateOfSeassion {get; set;}
+   public DateTime? DateOfSession {get; set;}
 }
