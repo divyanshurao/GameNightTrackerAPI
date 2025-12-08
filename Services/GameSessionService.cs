@@ -66,6 +66,15 @@ public class GameSessionService: IGameSession
         var savedSession = await _sessionRepository.GetByIdAsync(session.Id) ?? session;
         return ToDto(session);
     }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+      var session = await _sessionRepository.GetByIdAsync(id);
+      if(session == null)return false;
+      _sessionRepository.Delete(session);
+      await _sessionRepository.SaveAllAsync();
+      return true;
+    }
     public static GameSessionDto ToDto(GameSession gameSession)
     {
         GameSessionDto gameSessionDto = new GameSessionDto();
